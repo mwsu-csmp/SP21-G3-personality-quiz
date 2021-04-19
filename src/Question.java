@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public class Question {
     String message;
     ArrayList<String> answers;
-    String image;
-    public Question(String message, String answers, String image){
+    ArrayList<String> images;
+
+    public Question(String message, String answers, String images){
         this.message = message;
-        this.image = image;
         ArrayList<String> answerList = new ArrayList<String>();
         StringBuilder current = new StringBuilder();
         for (int i = 0; i < answers.length(); i++){
@@ -21,7 +21,21 @@ public class Question {
             }
         }
         answerList.add(current.toString());
+
+        current.setLength(0);
+        ArrayList<String> imageList = new ArrayList<String>();
+        for (int i = 0; i < images.length(); i++){
+            char c = images.charAt(i);
+            if(c != ' '){
+                current.append(c);
+            }else {
+                imageList.add(current.toString());
+                current.setLength(0);
+            }
+        }
+        imageList.add(current.toString());
         this.answers = answerList;
+        this.images = imageList;
     }
 
     public String toString(){
@@ -32,8 +46,8 @@ public class Question {
         }
         return "Question: "+ this.message + "Answers = "+ stringList.toString();
     }
-    public String getImageDir(){
-        return this.image;
+    public ArrayList<String> getImageDir(){
+        return this.images;
     }
     public String getQuestion(){
         return this.message;

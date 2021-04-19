@@ -1,78 +1,93 @@
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.TilePane;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        StackPane rootPane = new StackPane();
-        GridPane grid = new GridPane();
+        BorderPane border = new BorderPane();
         primaryStage.setTitle("Hello World");
-        Question question1 = new Question("What is your favorite flavor of ice-cream????", "Chocolate Strawberry Vanilla Rocky_Road", "icecream.gif");
-        System.out.println(question1.toString());
-        Label label = new Label(question1.getQuestion());
-        label.setFont(Font.font("Comic Sans MS", 24));
-        Image image = new Image(question1.getImageDir());
-        grid.add(label, 1, 1, 5, 1);
-        grid.add(new ImageView(image), 1, 2, 5, 1);
-        grid.setGridLinesVisible(true);
-        TilePane buttonGrid = generateButtonLayout(4,question1.getAnswers());
-        buttonGrid.setPadding(new Insets(0, 0, 30, 0));
-        buttonGrid.setAlignment(Pos.BOTTOM_CENTER);
+        EventHandler<MouseEvent> miscEvent = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e){
+                System.out.println("" + border.getWidth() + "||" + border.getHeight());
+            }
+        };
+        Question question1 = new Question("What is your favorite flavor of ice-cream????",
+                "Chocolate Strawberry Vanilla Rocky_Road",
+                "chocolate.gif strawberry.gif vanilla.gif rockyroad.jpg");
+        loadQuestion(question1, border);
 
-        grid.setAlignment(Pos.TOP_CENTER);
-        rootPane.getChildren().addAll(grid, buttonGrid);
-        primaryStage.setScene(new Scene(rootPane, 600, 700));
-
+        primaryStage.setScene(new Scene(border, 600, 700));
+        Button sizereturn = new Button("Return size");
+        sizereturn.addEventFilter(MouseEvent.MOUSE_CLICKED, miscEvent);
+        border.setBottom(sizereturn);
         primaryStage.show();
     }
 
-    private TilePane generateButtonLayout(int buttonNum, ArrayList<String> answers){
-        TilePane layout = new TilePane();
-        layout.setHgap(10);
-        layout.setPrefColumns(buttonNum);
-        layout.getChildren().setAll(createButtons(buttonNum, answers));
-        layout.setPadding(new Insets(10));
-
-        return layout;
-    }
-
-    private Button[] createButtons(int buttonNum, ArrayList<String> answers) {
-        Button[] buttons = new Button[buttonNum];
-        for (int i = 0; i < buttons.length; i++) {
-            buttons[i] = createButton(answers.get(i));
+    private void loadQuestion(Question question, BorderPane border){
+        border.getChildren().clear();
+        Label label = new Label(question.getQuestion());
+        label.setFont(Font.font("Tahoma", 30));
+        label.setWrapText(true);
+        border.setTop(label);
+        border.setAlignment(border.getTop(), Pos.CENTER);
+        border.setCenter(new TilePane());
+        TilePane buttons = (TilePane)border.getCenter();
+        Button b1 = new Button(question.getAnswers().get(0));
+        Button b2 = new Button(question.getAnswers().get(1));
+        Button b3 = new Button(question.getAnswers().get(2));
+        Button b4 = new Button(question.getAnswers().get(3));
+        buttons.getChildren().addAll(b1, b2, b3, b4);
+        buttons.setAlignment(Pos.CENTER);
+        buttons.setPrefColumns(2);
+        buttons.setHgap(10);
+        buttons.setVgap(10);
+        ArrayList<ImageView> pictures = new ArrayList<ImageView>();
+        pictures.add(new ImageView(question.getImageDir().get(0)));
+        pictures.add(new ImageView(question.getImageDir().get(1)));
+        pictures.add(new ImageView(question.getImageDir().get(2)));
+        pictures.add(new ImageView(question.getImageDir().get(3)));
+        for(int i = 0; i < 4; i++){
+            Button currentButton = (Button)buttons.getChildren().get(i);
+            currentButton.setGraphic(pictures.get(i));
+            ButtonHandleClass buttonHandle = new ButtonHandleClass();
+            currentButton.setOnAction(buttonHandle);
         }
+        buttons.setPadding(new Insets(10, 50, 10, 50));
 
-        return buttons;
     }
 
-    private Button createButton(String answer) {
-        Button button = new Button();
-        button.setText(answer);
-        button.setPrefWidth(125);
-
-        return button;
+    class ButtonHandleClass implements EventHandler<ActionEvent>{
+        @Override
+        public void handle(ActionEvent e){
+            Button sourceButton = (Button)e.getSource();
+            System.out.println(sourceButton.getText());
+        }
     }
-
 
     public static void main(String[] args) {
         launch(args);
     }
 }
+
