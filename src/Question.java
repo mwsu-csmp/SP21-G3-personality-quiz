@@ -89,6 +89,13 @@ public class Question {
             }
         }
         buttons.setPadding(new Insets(10, 50, 10, 50));
+
+        Button nextButton = new Button("Next question!");
+        nextButton.setFont(Font.font("Tahoma", FontWeight.BOLD, 18));
+        nextButton.setPrefSize(200, 80);
+        nextButton.setMinSize(Button.USE_PREF_SIZE, Button.USE_PREF_SIZE);
+        border.setBottom(nextButton);
+        border.setAlignment(border.getBottom(), Pos.BOTTOM_LEFT);
         class ButtonHandler implements EventHandler<ActionEvent> {
             @Override
             public void handle(ActionEvent e){
@@ -105,6 +112,11 @@ public class Question {
         b2.setOnAction(new ButtonHandler());
         b3.setOnAction(new ButtonHandler());
         b4.setOnAction(new ButtonHandler());
+        nextButton.setOnAction(event -> {
+           if(currentAnswer == null){
+
+           }
+        });
     }
 
     private Node getNodeRowCol(int row, int column, GridPane grid){

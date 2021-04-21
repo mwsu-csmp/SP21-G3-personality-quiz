@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -31,12 +32,24 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        StackPane rootPane = new StackPane();
         BorderPane border = new BorderPane();
         primaryStage.setTitle("What Spring Activity are You?");
         startPane = new StartPane(event -> primaryStage.setScene(quizScene));
-        quizScene = new Scene(border, 750, 700);
         startScene = new Scene(startPane, 500, 500);
-        primaryStage.setScene(startScene);
+        rootPane.getChildren().add(border);
+        quizScene = new Scene(rootPane, 750, 700);
+
+        ProgressBar p1 = new ProgressBar(0.0);
+        Label errors = new Label("ERROR TESTING");
+        rootPane.getChildren().addAll(p1, errors);
+        p1.setPrefSize(300, 20);
+        p1.setMinSize(ProgressBar.USE_PREF_SIZE, ProgressBar.USE_PREF_SIZE);
+        p1.setTranslateX(-50);
+        p1.setTranslateY(-50);
+        errors.setTranslateX(-50);
+        errors.setTranslateY(-25);
+        rootPane.setAlignment(Pos.BOTTOM_RIGHT);
 
         Question question1 = new Question(
                 "What is your favorite flavor of ice-cream????",
@@ -44,10 +57,12 @@ public class Main extends Application {
                 "<20 10 25 50 5> <5 20 15 15 50> <20 30 20 20 30> <40 15 50 10 20>",
                 "chocolate.gif strawberry.gif vanilla.gif rockyroad.jpg");
         question1.load(border);
-//TODO: Make the program check if there is a currentAnswer for the last question, if there isn't, then prevent moving to next question
 
+
+
+//TODO: Make the program check if there is a currentAnswer for the last question, if there isn't, then prevent moving to next question, also add progress bar
         border.setPadding(new Insets(25));
-
+        primaryStage.setScene(startScene);
         primaryStage.show();
     }
 
