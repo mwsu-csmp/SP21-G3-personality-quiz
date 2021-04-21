@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -24,13 +25,19 @@ import java.util.function.Consumer;
 
 
 public class Main extends Application {
-    /*
-        Look in GGClient login pane for ideas on how to use consumers and lambdas.
-     */
+    private StartPane startPane;
+    private Scene startScene;
+    private Scene quizScene;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         BorderPane border = new BorderPane();
         primaryStage.setTitle("What Spring Activity are You?");
+        startPane = new StartPane(event -> primaryStage.setScene(quizScene));
+        quizScene = new Scene(border, 750, 700);
+        startScene = new Scene(startPane, 500, 500);
+        primaryStage.setScene(startScene);
+
         Question question1 = new Question(
                 "What is your favorite flavor of ice-cream????",
                 "Chocolate Strawberry Vanilla Rocky_Road",
@@ -40,7 +47,6 @@ public class Main extends Application {
 //TODO: Make the program check if there is a currentAnswer for the last question, if there isn't, then prevent moving to next question
 
         border.setPadding(new Insets(25));
-        primaryStage.setScene(new Scene(border, 750, 700));
 
         primaryStage.show();
     }

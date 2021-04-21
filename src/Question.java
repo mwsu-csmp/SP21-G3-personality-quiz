@@ -8,8 +8,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
@@ -50,6 +53,7 @@ public class Question {
 
     public void load(BorderPane border){
         border.getChildren().clear();
+        border.setBackground(new Background(new BackgroundFill(Color.LAVENDERBLUSH, null, null)));
         Label label = new Label(this.getQuestion());
         label.setFont(Font.font("Tahoma", FontWeight.BOLD, 30));
         label.setStyle("-fx-text-alignment: center");
@@ -84,7 +88,6 @@ public class Question {
                 currentButton.setGraphic(pictures.get(i/2));
             }
         }
-
         buttons.setPadding(new Insets(10, 50, 10, 50));
         class ButtonHandler implements EventHandler<ActionEvent> {
             @Override
@@ -95,6 +98,7 @@ public class Question {
                 currentAnswer = finalAnswer;
                 System.out.println(currentAnswer);
                 System.out.println(answerWeights);
+                System.out.println(getCurrentWeights());
             }
         }
         b1.setOnAction(new ButtonHandler());
@@ -117,6 +121,11 @@ public class Question {
         return result;
     }
     public String getCurrentAnswer() { return this.currentAnswer; }
+
+    public ArrayList<Integer> getCurrentWeights() {
+        int ansIndex = answers.indexOf(currentAnswer);
+        return (ArrayList)answerWeights.get(ansIndex);
+    }
 
     private ArrayList<String> deserialize(String input){
         ArrayList<String> accList = new ArrayList<String>();
