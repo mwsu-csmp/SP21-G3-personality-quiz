@@ -13,6 +13,9 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
@@ -25,7 +28,6 @@ public class Question {
     private ArrayList<String> images;
     private String currentAnswer;
     private ArrayList<List<Integer>> answerWeights;
-//TODO: Make a method that connects current Answer to the correct list of weights from answerWeights
 
     public Question(String message, String answers, String weights, String images){
         this.message = message;
@@ -53,7 +55,10 @@ public class Question {
 
     public void load(BorderPane border){
         border.getChildren().clear();
-        border.setBackground(new Background(new BackgroundFill(Color.LAVENDERBLUSH, null, null)));
+        Stop[] stops = new Stop[]  { new Stop(0, Color.PALETURQUOISE), new Stop(1, Color.PALEVIOLETRED)};
+        LinearGradient lg1 = new LinearGradient(0,0,1,0,true, CycleMethod.NO_CYCLE, stops);
+        //border.setBackground(new Background(new BackgroundFill(Color.LAVENDERBLUSH, null, null)));
+        border.setBackground(new Background(new BackgroundFill(lg1, null,null)));
         Label label = new Label(this.getQuestion());
         label.setFont(Font.font("Tahoma", FontWeight.BOLD, 30));
         label.setStyle("-fx-text-alignment: center");
@@ -90,12 +95,6 @@ public class Question {
         }
         buttons.setPadding(new Insets(10, 50, 10, 50));
 
-        Button nextButton = new Button("Next question!");
-        nextButton.setFont(Font.font("Tahoma", FontWeight.BOLD, 18));
-        nextButton.setPrefSize(200, 80);
-        nextButton.setMinSize(Button.USE_PREF_SIZE, Button.USE_PREF_SIZE);
-        border.setBottom(nextButton);
-        border.setAlignment(border.getBottom(), Pos.BOTTOM_LEFT);
         class ButtonHandler implements EventHandler<ActionEvent> {
             @Override
             public void handle(ActionEvent e){
@@ -112,11 +111,7 @@ public class Question {
         b2.setOnAction(new ButtonHandler());
         b3.setOnAction(new ButtonHandler());
         b4.setOnAction(new ButtonHandler());
-        nextButton.setOnAction(event -> {
-           if(currentAnswer == null){
 
-           }
-        });
     }
 
     private Node getNodeRowCol(int row, int column, GridPane grid){
