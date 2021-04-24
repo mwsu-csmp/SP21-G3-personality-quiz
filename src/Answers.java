@@ -6,7 +6,7 @@ public class Answers {
     private Integer hikingTotal;
     private Integer horsebackRidingTotal;
     private Integer gardeningTotal;
-    private ArrayList<Integer> runningTotals;
+    private ArrayList<Integer> runningTotals = new ArrayList<Integer>();
 
     public void storeTotals(ArrayList<Integer> weights) {//method to actually store our weighted totals that determine the final answer.
         this.barbecueTotal = weights.get(0); //sets all the individual totals to what they are in the inputted arraylist
@@ -32,6 +32,10 @@ public class Answers {
         }
 
         return max;
+    }
+
+    public String toString(){
+        return "B:" + barbecueTotal + " F:" + frisbeeTotal + " Hi:" + hikingTotal + " Ho:" + horsebackRidingTotal + " G:" + gardeningTotal;
     }
     //TODO: have this class store the answers after each question answered.
 }
