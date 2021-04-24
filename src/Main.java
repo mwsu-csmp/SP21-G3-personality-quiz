@@ -66,6 +66,7 @@ public class Main extends Application {
         rootPane.setAlignment(Pos.BOTTOM_RIGHT);
         // ORDER IS <Barbecuing, Frisbee, Hiking, HorsebackRiding, and Gardening>
 
+        //TODO: Add more questions and add the results together
         Answers answers = new Answers();
         questions.add(new Question(
                 "What is your favorite flavor of ice-cream????",
@@ -77,6 +78,7 @@ public class Main extends Application {
                 "Outfit_1 Outfit_2 Outfit_3 Outfit_4",
                 "<10 25 40 15 5> <15 20 10 30 50> <15 45 20 10 30> <30 35 10 20 10>",
                 "cop.gif largejacket.gif skater.gif supreme.gif"));
+
         currentQuestion = questions.get(0);
         currentQuestion.load(border);
         nextButton.setOnAction(e -> {
@@ -89,6 +91,8 @@ public class Main extends Application {
                 try {
                     currentQuestion = getNextQuestion();
                     currentQuestion.load(border);
+                    double divisor = (double)1/questions.size(); //needs to be a double serving as a percentage of 100
+                    p1.setProgress(p1.getProgress() + divisor);
                 }
                 catch(IndexOutOfBoundsException x){
                     errors.setText("No more questions!");
@@ -98,7 +102,6 @@ public class Main extends Application {
 
 
 
-//TODO: Make the program check if there is a currentAnswer for the last question, if there isn't, then prevent moving to next question, also add progress bar
         border.setPadding(new Insets(25));
         primaryStage.setScene(startScene);
         primaryStage.show();
