@@ -57,7 +57,6 @@ public class Question {
         border.getChildren().clear();
         Stop[] stops = new Stop[]  { new Stop(0, Color.PALETURQUOISE), new Stop(1, Color.PALEVIOLETRED)};
         LinearGradient lg1 = new LinearGradient(0,0,1,0,true, CycleMethod.NO_CYCLE, stops);
-        //border.setBackground(new Background(new BackgroundFill(Color.LAVENDERBLUSH, null, null)));
         border.setBackground(new Background(new BackgroundFill(lg1, null,null)));
         Label label = new Label(this.getQuestion());
         label.setFont(Font.font("Tahoma", FontWeight.BOLD, 30));
@@ -139,7 +138,7 @@ public class Question {
         StringBuilder current = new StringBuilder();
         for (int i = 0; i < input.length(); i++){
             char c = input.charAt(i);
-            if(c != ' '){
+            if(c != '/'){
                 current.append(c);
             }else {
                 accList.add(current.toString());

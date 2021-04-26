@@ -31,6 +31,8 @@ public class Main extends Application {
     private Scene quizScene;
     private Question currentQuestion;
     private Question nextQuestion;
+    private EndPane endPane;
+    private Scene endScene;
     ArrayList<Question> questions = new ArrayList<Question>();
 
     @Override
@@ -70,14 +72,20 @@ public class Main extends Application {
         Answers answers = new Answers();
         questions.add(new Question(
                 "What is your favorite flavor of ice-cream????",
-                "Chocolate Strawberry Vanilla Rocky_Road",
-                "<20 10 25 50 5> <5 20 15 15 50> <20 30 20 20 30> <40 15 50 10 20>",
-                "chocolate.gif strawberry.gif vanilla.gif rockyroad.jpg"));
+                "Chocolate/Strawberry/Vanilla/Rocky Road",
+                "<20/10/25/50/5> <5/20/15/15/50> <20/30/20/20/30> <40/15/50/10/20>",
+                "chocolate.gif/strawberry.gif/vanilla.gif/rockyroad.jpg"));
         questions.add(new Question(
                 "Pick an outfit.",
-                "Outfit_1 Outfit_2 Outfit_3 Outfit_4",
-                "<10 25 40 15 5> <15 20 10 30 50> <15 45 20 10 30> <30 35 10 20 10>",
-                "cop.gif largejacket.gif skater.gif supreme.gif"));
+                "Outfit 1/Outfit 2/Outfit 3/Outfit 4",
+                "<10/25/40/15/5> <15/20/10/30/50> <15/35/20/10/30> <30/25/10/20/10>",
+                "cop.gif/largejacket.gif/skater.gif/supreme.gif"));
+        questions.add(new Question(
+                "What would you bring with you into battle?",
+                "Nokinir/The Smart Shopper/Paper Cutter/The Thirst Quencher",
+                "<20/10/30/15/25> <15/20/40/10/20> <50/20/10/15/20> <20/30/15/30/10>",
+                "nokinir.gif/amazon.gif/ninjastar.jpg/thirstquencher.jpg"));
+
 
         currentQuestion = questions.get(0);
         currentQuestion.load(border);
@@ -88,15 +96,17 @@ public class Main extends Application {
                 answers.storeTotals(currentQuestion.getCurrentWeights());
                 System.out.println(answers.toString());
                 errors.setText("");
-                try {
+                if(getNextQuestion() != null){
                     currentQuestion = getNextQuestion();
                     currentQuestion.load(border);
                     double divisor = (double)1/questions.size(); //needs to be a double serving as a percentage of 100
                     p1.setProgress(p1.getProgress() + divisor);
+                } else {
+                    endPane = new EndPane(answers);
+                    endScene = new Scene(endPane, 800, 750);
+                    primaryStage.setScene(endScene);
                 }
-                catch(IndexOutOfBoundsException x){
-                    errors.setText("No more questions!");
-                }
+
             }
         });
 
@@ -107,8 +117,13 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private Question getNextQuestion() throws IndexOutOfBoundsException{
-        return questions.get(questions.indexOf(currentQuestion)+1);
+    private Question getNextQuestion(){
+        try {
+            return questions.get(questions.indexOf(currentQuestion) + 1);
+        }
+        catch(IndexOutOfBoundsException e){
+            return null;
+        }
     }
 
 

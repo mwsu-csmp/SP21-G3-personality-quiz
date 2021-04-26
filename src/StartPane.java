@@ -7,6 +7,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.layout.*;
@@ -19,6 +22,9 @@ public class StartPane extends BorderPane {
 
     public StartPane(Consumer<ActionEvent> beginGame){
         this.beginGame = beginGame;
+        Stop[] stops = new Stop[]  { new Stop(0, Color.PALETURQUOISE), new Stop(1, Color.PALEVIOLETRED)};
+        LinearGradient lg1 = new LinearGradient(0,0,1,0,true, CycleMethod.NO_CYCLE, stops);
+        setBackground(new Background(new BackgroundFill(lg1, null,null)));
         Label label = new Label("What Spring activity are you?");
         label.setFont(Font.font("Tahoma", FontWeight.BOLD, 30));
         label.setStyle("-fx-text-alignment: center");

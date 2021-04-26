@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+
 // ORDER IS <Barbecuing, Frisbee, Hiking, HorsebackRiding, and Gardening>
 public class Answers {
     private Integer barbecueTotal;//all of our weight totals
@@ -6,7 +8,7 @@ public class Answers {
     private Integer hikingTotal;
     private Integer horsebackRidingTotal;
     private Integer gardeningTotal;
-    private ArrayList<Integer> runningTotals = new ArrayList<Integer>();
+    private ArrayList<Integer> runningTotals = new ArrayList<Integer>(Arrays.asList(0,0,0,0,0));
     //TODO: Use runningTotals somehow
 
     public void storeTotals(ArrayList<Integer> weights) {//method to actually store our weighted totals that determine the final answer.
@@ -15,24 +17,36 @@ public class Answers {
         this.hikingTotal = weights.get(2);
         this.horsebackRidingTotal = weights.get(3);
         this.gardeningTotal = weights.get(4);
-        this.runningTotals.add(this.barbecueTotal); //adds all the totals to our running total arraylist that will be used to show the final total
-        this.runningTotals.add(this.frisbeeTotal);
-        this.runningTotals.add(this.hikingTotal);
-        this.runningTotals.add(this.horsebackRidingTotal);
-        this.runningTotals.add(this.gardeningTotal);
-
+        runningTotals.set(0, runningTotals.get(0) + barbecueTotal);
+        runningTotals.set(1, runningTotals.get(1) + frisbeeTotal);
+        runningTotals.set(2, runningTotals.get(2) + hikingTotal);
+        runningTotals.set(3, runningTotals.get(3) + horsebackRidingTotal);
+        runningTotals.set(4, runningTotals.get(4) + gardeningTotal);
 
     }
 
-    public int biggestTotal(ArrayList<Integer> weights) { //just finds the biggest total so we can decide which final outcome to show
-        int max = weights.get(0);
-        for(int i : weights) {
+    public int biggestTotal() { //just finds the biggest total so we can decide which final outcome to show
+        int max = runningTotals.get(0);
+        int count = 0;
+        for(int i : runningTotals) {
             if(i > max) {
                 max = i;
+                count++;
             }
         }
-
-        return max;
+        switch(count){
+            case 0:
+                return 1;
+            case 1:
+                return 2;
+            case 2:
+                return 3;
+            case 3:
+                return 4;
+            case 4:
+                return 5;
+        }
+        return 0;
     }
 
     public String toString(){
