@@ -114,7 +114,9 @@ public class Main extends Application {
                 } else {
                     mediaPlayer.stop();
                     mediaPlayer.play();
-                    endPane = new EndPane(answers);
+                    endPane = new EndPane(answers, event -> {
+                        primaryStage.setScene(startScene);
+                    });
                     endScene = new Scene(endPane, 800, 750);
                     primaryStage.setScene(endScene);
                 }
@@ -137,6 +139,7 @@ public class Main extends Application {
             return null;
         }
     }
+
 
 
     public static void main(String[] args) {

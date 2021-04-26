@@ -1,4 +1,5 @@
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -15,7 +16,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.layout.*;
 
 public class EndPane extends BorderPane{
-    public EndPane(Answers answers){
+    public EndPane(Answers answers, EventHandler<ActionEvent> callback){
         int finalResult = answers.biggestTotal();
         Stop[] stops = new Stop[]  { new Stop(0, Color.PALETURQUOISE), new Stop(1, Color.PALEVIOLETRED)};
         LinearGradient lg1 = new LinearGradient(0,0,1,0,true, CycleMethod.NO_CYCLE, stops);
@@ -27,6 +28,8 @@ public class EndPane extends BorderPane{
         ImageView gardening = new ImageView("garden.gif");
         Label label = new Label(answers.getName() + "! Your results are in!");
         setTop(label);
+        VBox resultRestart = new VBox();
+
         Label result = new Label("");
         setBottom(result);
         label.setFont(Font.font("Tahoma", FontWeight.BOLD, 30));
@@ -37,6 +40,13 @@ public class EndPane extends BorderPane{
         result.setStyle("-fx-text-alignment: center");
         result.setWrapText(true);
         setAlignment(getBottom(), Pos.CENTER);
+        Button restartButton = new Button("Restart Quiz!");
+        restartButton.setFont((Font.font("Tahoma", FontWeight.BOLD, 30)));
+        resultRestart.getChildren().addAll(result, restartButton);
+        setBottom(resultRestart);
+        resultRestart.setAlignment(Pos.BOTTOM_CENTER);
+        restartButton.setOnAction(callback);
+
         setPadding(new Insets(30, 0, 30, 0));
         switch(finalResult){
             case 1:
