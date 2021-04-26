@@ -25,7 +25,7 @@ public class EndPane extends BorderPane{
         ImageView hiking = new ImageView("hiker.gif");
         ImageView horse = new ImageView("horsey.gif");
         ImageView gardening = new ImageView("garden.gif");
-        Label label = new Label("Your results are in!");
+        Label label = new Label(answers.getName() + "! Your results are in!");
         setTop(label);
         Label result = new Label("");
         setBottom(result);
@@ -37,6 +37,7 @@ public class EndPane extends BorderPane{
         result.setStyle("-fx-text-alignment: center");
         result.setWrapText(true);
         setAlignment(getBottom(), Pos.CENTER);
+        setPadding(new Insets(30, 0, 30, 0));
         switch(finalResult){
             case 1:
                 result.setText("If you were a spring activity you would be: Barbecuing!");

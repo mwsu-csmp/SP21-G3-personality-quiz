@@ -3,6 +3,7 @@ import java.util.Arrays;
 
 // ORDER IS <Barbecuing, Frisbee, Hiking, HorsebackRiding, and Gardening>
 public class Answers {
+    private String name;
     private Integer barbecueTotal;//all of our weight totals
     private Integer frisbeeTotal;
     private Integer hikingTotal;
@@ -51,5 +52,12 @@ public class Answers {
 
     public String toString(){
         return "B:" + barbecueTotal + " F:" + frisbeeTotal + " Hi:" + hikingTotal + " Ho:" + horsebackRidingTotal + " G:" + gardeningTotal;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+    public String getName(){
+        return name;
     }
 }

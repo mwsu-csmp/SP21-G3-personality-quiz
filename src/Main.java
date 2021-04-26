@@ -16,11 +16,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
@@ -39,9 +42,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         StackPane rootPane = new StackPane();
         BorderPane border = new BorderPane();
+        Answers answers = new Answers();
         primaryStage.setTitle("What Spring Activity are You?");
-        startPane = new StartPane(event -> primaryStage.setScene(quizScene));
-        startScene = new Scene(startPane, 500, 500);
+        startPane = new StartPane(username -> {
+            primaryStage.setScene(quizScene);
+            answers.setName(startPane.getName());
+        });
+        startScene = new Scene(startPane, 600, 500);
         rootPane.getChildren().add(border);
         quizScene = new Scene(rootPane, 800, 750);
 
@@ -66,10 +73,11 @@ public class Main extends Application {
         buttBox.setMaxHeight(Button.USE_PREF_SIZE);
         //buttBox.setBackground(new Background(new BackgroundFill(Color.RED, null,null))); //used to see the boundaries of buttbox
         rootPane.setAlignment(Pos.BOTTOM_RIGHT);
+        MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File("resources/ding.mp3").toURI().toString()));
+        mediaPlayer.setVolume(0.3);
         // ORDER IS <Barbecuing, Frisbee, Hiking, HorsebackRiding, and Gardening>
 
         //TODO: Add more questions and add the results together
-        Answers answers = new Answers();
         questions.add(new Question(
                 "What is your favorite flavor of ice-cream????",
                 "Chocolate/Strawberry/Vanilla/Rocky Road",
@@ -99,9 +107,13 @@ public class Main extends Application {
                 if(getNextQuestion() != null){
                     currentQuestion = getNextQuestion();
                     currentQuestion.load(border);
+                    mediaPlayer.stop();
+                    mediaPlayer.play();
                     double divisor = (double)1/questions.size(); //needs to be a double serving as a percentage of 100
                     p1.setProgress(p1.getProgress() + divisor);
                 } else {
+                    mediaPlayer.stop();
+                    mediaPlayer.play();
                     endPane = new EndPane(answers);
                     endScene = new Scene(endPane, 800, 750);
                     primaryStage.setScene(endScene);
