@@ -55,6 +55,7 @@ public class Question {
 
     public void load(BorderPane border){
         border.getChildren().clear();
+        currentAnswer = null;
         Stop[] stops = new Stop[]  { new Stop(0, Color.PALETURQUOISE), new Stop(1, Color.PALEVIOLETRED)};
         LinearGradient lg1 = new LinearGradient(0,0,1,0,true, CycleMethod.NO_CYCLE, stops);
         border.setBackground(new Background(new BackgroundFill(lg1, null,null)));
@@ -148,6 +149,7 @@ public class Question {
         accList.add(current.toString());
         return accList;
     }
+
 
     private ArrayList<List<Integer>> deserializeWeights(String input){
         ArrayList<List<Integer>> accList = new ArrayList<List<Integer>>();
