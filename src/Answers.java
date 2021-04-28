@@ -49,6 +49,19 @@ public class Answers {
         }
         return 0;
     }
+    public void resetWeights() {
+        this.barbecueTotal = 0; //sets all the individual totals to what they are in the inputted arraylist
+        this.frisbeeTotal = 0;
+        this.hikingTotal = 0;
+        this.horsebackRidingTotal = 0;
+        this.gardeningTotal = 0;
+        runningTotals.set(0, 0);
+        runningTotals.set(1, 0);
+        runningTotals.set(2, 0);
+        runningTotals.set(3, 0);
+        runningTotals.set(4, 0);
+
+    }
 
     public String toString(){
         return "B:" + barbecueTotal + " F:" + frisbeeTotal + " Hi:" + hikingTotal + " Ho:" + horsebackRidingTotal + " G:" + gardeningTotal;

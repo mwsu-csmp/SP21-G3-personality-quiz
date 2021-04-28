@@ -116,6 +116,10 @@ public class Main extends Application {
                     mediaPlayer.play();
                     endPane = new EndPane(answers, event -> {
                         primaryStage.setScene(startScene);
+                        p1.setProgress(0.0);
+                        currentQuestion = questions.get(0);
+                        currentQuestion.load(border);
+                        answers.resetWeights();
                     });
                     endScene = new Scene(endPane, 800, 750);
                     primaryStage.setScene(endScene);
@@ -139,6 +143,7 @@ public class Main extends Application {
             return null;
         }
     }
+
 
 
 
