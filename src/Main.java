@@ -93,6 +93,17 @@ public class Main extends Application {
                 "Nokinir/The Smart Shopper/Paper Cutter/The Thirst Quencher",
                 "<20/10/30/15/25> <15/20/40/10/20> <50/20/10/15/20> <20/30/15/30/10>",
                 "nokinir.gif/amazon.gif/ninjastar.jpg/thirstquencher.jpg"));
+        questions.add(new Question(
+                "Pick a Home.",
+                "Fantastic Fiberglass/The Rich Kid/The Leif Erikson/Opposite Day",
+                "<15/40/25/30/20> <30/20/40/10/15> <20/15/25/45/5> <10/15/30/10/30>",
+                "whitehome.png/dirt.jpg/houseboat.jpg/upsidedown.jpg"));
+        questions.add(new Question(
+                "Pick an environment.",
+                "City Life/Serene Forest/The Ocean/VHS Dreams",
+                "<20/30/10/25/25> <0/20/50/30/25> <15/50/15/30/20> <20/30/35/15/10>",
+                "city.gif/forest.gif/ocean.gif/retrowave.gif"));
+
 
 
         currentQuestion = questions.get(0);
