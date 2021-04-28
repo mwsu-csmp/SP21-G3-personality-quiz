@@ -1,3 +1,4 @@
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -6,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -14,6 +16,10 @@ import javafx.scene.paint.Stop;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.layout.*;
+import javax.imageio.ImageIO;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 
 public class EndPane extends BorderPane{
     public EndPane(Answers answers, EventHandler<ActionEvent> callback){
@@ -29,6 +35,9 @@ public class EndPane extends BorderPane{
         Label label = new Label(answers.getName() + "! Your results are in!");
         setTop(label);
         VBox resultRestart = new VBox();
+        HBox buttons = new HBox();
+        buttons.setSpacing(30);
+        resultRestart.setSpacing(30);
 
         Label result = new Label("");
         setBottom(result);
@@ -41,11 +50,24 @@ public class EndPane extends BorderPane{
         result.setWrapText(true);
         setAlignment(getBottom(), Pos.CENTER);
         Button restartButton = new Button("Restart Quiz!");
+        Button saveButton = new Button("Save this page!");
         restartButton.setFont((Font.font("Tahoma", FontWeight.BOLD, 30)));
-        resultRestart.getChildren().addAll(result, restartButton);
+        saveButton.setFont((Font.font("Tahoma", FontWeight.BOLD, 30)));
+        buttons.getChildren().addAll(restartButton, saveButton);
+        buttons.setAlignment(Pos.CENTER);
+        resultRestart.getChildren().addAll(result, buttons);
         setBottom(resultRestart);
         resultRestart.setAlignment(Pos.BOTTOM_CENTER);
         restartButton.setOnAction(callback);
+        saveButton.setOnAction(event -> {
+            File savedImage = new File("savedimage.png");
+            WritableImage snapshot = this.snapshot(null, null);
+            try {
+                ImageIO.write(SwingFXUtils.fromFXImage(snapshot, null), "png", savedImage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         setPadding(new Insets(30, 0, 30, 0));
         switch(finalResult){
